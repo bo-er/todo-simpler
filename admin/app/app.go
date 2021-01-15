@@ -43,7 +43,7 @@ func Init(ctx context.Context, opts ...Option) {
 	config.MustLoad(o.ConfigFile)
 	log.Printf("Todo应用启动\n")
 	log.Printf("Todo应用运行模式:%s\n", config.C.RunMode)
-	log.Printf("Todo应用进程号:%s\n", os.Getpid())
+	log.Printf("Todo应用进程号:%d\n", os.Getpid())
 	db, err := InitGormDB()
 	if err != nil {
 		log.Fatalf("数据库初始化失败: %s", err.Error())
@@ -56,7 +56,7 @@ func Init(ctx context.Context, opts ...Option) {
 		TodoAPI: apiTodo,
 	}
 	engine := InitGinEngine(routerRouter)
-	engine.Run(":8080")
+	engine.Run(":10080")
 }
 
 // Run 运行服务
@@ -65,7 +65,6 @@ func Run(ctx context.Context, opts ...Option) error {
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	Init(ctx, opts...)
-
 
 EXIT:
 	for {
