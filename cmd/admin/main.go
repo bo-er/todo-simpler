@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -19,6 +20,7 @@ func main() {
 		newWebCmd(ctx),
 	}
 	err := app.Run(os.Args)
+	fmt.Println("运行参数是:", os.Args)
 	if err != nil {
 		log.Fatalf("服务运行失败，错误原因是:%s", err.Error())
 	}
@@ -26,8 +28,8 @@ func main() {
 
 func newWebCmd(ctx context.Context) *cli.Command {
 	return &cli.Command{
-		Name:  "swsiotadmin",
-		Usage: "运行sws iot admin服务",
+		Name:  "todosimpler",
+		Usage: "运行todo simpler admin服务",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:     "conf",
@@ -45,6 +47,7 @@ func newWebCmd(ctx context.Context) *cli.Command {
 
 type tagKey struct{}
 
+// NewTagContext ...
 func NewTagContext(ctx context.Context, tag string) context.Context {
 	return context.WithValue(ctx, tagKey{}, tag)
 }

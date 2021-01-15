@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -11,6 +12,7 @@ import (
 	"github.com/bo-er/todo-simpler/admin/api"
 	"github.com/bo-er/todo-simpler/admin/config"
 	"github.com/bo-er/todo-simpler/admin/routers"
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
@@ -34,16 +36,17 @@ func SetConfigFile(s string) Option {
 }
 
 // Init 应用初始化,opts是Option类型的函数，比如SetConfigFile
-func Init(ctx context.Context, opts ...Option) {
+func Init(ctx context.Context, opts ...Option) *gin.Engine {
 	var o options
 	// 遍历执行Option类型的函数
 	for _, optionFunc := range opts {
 		optionFunc(&o)
 	}
+
 	config.MustLoad(o.ConfigFile)
 	log.Printf("Todo应用启动\n")
 	log.Printf("Todo应用运行模式:%s\n", config.C.RunMode)
-	log.Printf("Todo应用进程号:%s\n", os.Getpid())
+	log.Printf("Todo应用进程号:%d\n", os.Getpid())
 	db, err := InitGormDB()
 	if err != nil {
 		log.Fatalf("数据库初始化失败: %s", err.Error())
@@ -56,7 +59,7 @@ func Init(ctx context.Context, opts ...Option) {
 		TodoAPI: apiTodo,
 	}
 	engine := InitGinEngine(routerRouter)
-	engine.Run(":8080")
+	return engine
 }
 
 // Run 运行服务
@@ -64,11 +67,14 @@ func Run(ctx context.Context, opts ...Option) error {
 	state := 1
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
-	Init(ctx, opts...)
-
+	engine := Init(ctx, opts...)
+	go func() {
+		engine.Run(":7088")
+	}()
 
 EXIT:
 	for {
+		fmt.Println("hello！")
 		sig := <-sc
 		log.Printf("接收到信号[%s]", sig.String())
 		switch sig {
