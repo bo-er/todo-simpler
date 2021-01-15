@@ -95,6 +95,9 @@ func ResJSON(c *gin.Context, status int, v interface{}) {
 		panic(err)
 	}
 	c.Set(ResBodyKey, message)
+	if status == 200 {
+		message = []byte("请求成功")
+	}
 	c.JSON(status, Result{Code: status, Msg: string(message), Data: v})
 	c.Abort()
 }
