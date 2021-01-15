@@ -64,17 +64,19 @@ func Init(ctx context.Context, opts ...Option) *gin.Engine {
 
 // Run 运行服务
 func Run(ctx context.Context, opts ...Option) error {
+
 	state := 1
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 	engine := Init(ctx, opts...)
+	cfg := config.C.HTTP
+	port := fmt.Sprintf(":%d", cfg.Port)
 	go func() {
-		engine.Run(":7088")
+		engine.Run(port)
 	}()
 
 EXIT:
 	for {
-		fmt.Println("hello！")
 		sig := <-sc
 		log.Printf("接收到信号[%s]", sig.String())
 		switch sig {
