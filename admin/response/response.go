@@ -53,6 +53,7 @@ func UnWrapErrorToResponsError(err error) *ResponseError {
 }
 
 // ResSuccess 响应成功消息
+// 这里的v接口的目的是？
 func ResSuccess(c *gin.Context, v interface{}) {
 	ResJSON(c, http.StatusOK, v)
 }

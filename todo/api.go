@@ -10,5 +10,5 @@ type TodoService interface {
 
 	UpdateUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime string, status int) (string, error)
 
-	// DeleteUserTodo(userID, userTodoID string)
+	DeleteUserTodo(userID, userTodoID string) (string, error)
 }

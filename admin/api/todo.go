@@ -58,11 +58,9 @@ func (t *Todo) AddUserTodo(c *gin.Context) {
 func (t *Todo) GetUserTodo(c *gin.Context) {
 	var json findUserTodo
 	if err := c.ShouldBindJSON(&json); err != nil {
-		//fmt.Print(err)
 		response.ResError(c, err)
 		return
-	}
-
+	} //这里的if函数的目的是判断json里面是否有值？
 	//userid,err:=strconv.Atoi(json.UserID)
 	userTodoID, err := t.TodoService.GetUserTodo(json.UserID, json.UserTodoID)
 	if err != nil {
@@ -81,7 +79,6 @@ func (t *Todo) GetUserAllTodos(c *gin.Context) {
 	page, _ := strconv.Atoi(c.PostForm("page"))
 	pagesize, _ := strconv.Atoi(c.PostForm("page_size"))
 	resultTodo, err := t.TodoService.GetUserAllTodos(page, pagesize)
-	// fmt.Print(page)
 	if err != nil {
 		response.ResError(c, err)
 	}
@@ -103,7 +100,21 @@ func (t *Todo) UpdateUserTodo(c *gin.Context) {
 	}
 	userID := strconv.Itoa(json.UserID)
 	userTodoID, err := t.TodoService.UpdateUserTodo(userID, json.UserTodoTitle, json.UserTodoDescription,
-		json.UserTodoDueTime, json.UserTodoRemindTime, status)
+		json.UserTodoDueTime, json.UserTodoRemindTime, status) //这里的t相当于参数，直接可以运用？
+	if err != nil {
+		response.ResError(c, err)
+	}
+	response.ResSuccess(c, userTodoID)
+}
+
+//DeleteUserTodo 是删除单个UserTodo的路由处理函数
+func (t *Todo) DeleteUserTodo(c *gin.Context) {
+	var json findUserTodo
+	if err := c.ShouldBindJSON(&json); err != nil {
+		response.ResError(c, err)
+		return
+	}
+	userTodoID, err := t.TodoService.DeleteUserTodo(json.UserID, json.UserTodoID)
 	if err != nil {
 		response.ResError(c, err)
 	}

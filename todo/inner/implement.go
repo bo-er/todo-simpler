@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/bo-er/todo-simpler/todo"
-	
+
 	"github.com/bo-er/todo-simpler/todo/errors"
 )
 
@@ -29,15 +29,23 @@ func NewTodoService(db *gorm.DB) (service todo.TodoService, err error) {
 func (dts *DefaultTodoService) AddUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime string, status int) (string, error) {
 	return AddUserTodo(dts.db, userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime, status)
 }
-// GetUserTodo 获取用户todo
-func (dts *DefaultTodoService) GetUserTodo(userID, userTodoID string ) (string, error) {
+
+// GetUserTodo xxx
+func (dts *DefaultTodoService) GetUserTodo(userID, userTodoID string) (string, error) {
 	return GetUserTodo(dts.db, userID, userTodoID)
 }
-// GetUserAllTodos 获取用户全部todo
+
+// GetUserAllTodos xxx
 func (dts *DefaultTodoService) GetUserAllTodos(page, pageSize int) ([]*todo.ResultUserTodo, error) {
-	return GetUserAllTodos(dts.db,page, pageSize)
+	return GetUserAllTodos(dts.db, page, pageSize)
 }
+
 // UpdateUserTodo xxx
 func (dts *DefaultTodoService) UpdateUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime string, status int) (string, error) {
-	return UpdateUserTodo(dts.db,userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime, status)
+	return UpdateUserTodo(dts.db, userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime, status)
+}
+
+//DeleteUserTodo 默认Todo service 实现删除用户todo接口
+func (dts *DefaultTodoService) DeleteUserTodo(userID, userTodoID string) (string, error) {
+	return DeleteUserTodo(dts.db, userID, userTodoID)
 }
