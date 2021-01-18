@@ -42,6 +42,12 @@ func AddUserTodo(
 	userTodoID := uuid.MustString()
 	convertedTodoTime, _ := time.ParseInLocation(TimeTemplate, userTodoDueTime, time.Local)
 	convertedRemindTime, _ := time.ParseInLocation(TimeTemplate, userTodoRemindTime, time.Local)
+	var _status bool
+	if status == 1 {
+		_status = true
+	} else {
+		_status = false
+	}
 	userTodo := &todo.UserTodo{
 		UserID:              userID,
 		UserTodoID:          userTodoID,
@@ -49,8 +55,75 @@ func AddUserTodo(
 		UserTodoDescription: userTodoDescription,
 		UserTodoDueTime:     convertedTodoTime,
 		UserTodoRemindTime:  convertedRemindTime,
+		Status:              _status,
 	}
 
 	err := db.Create(userTodo)
+	return userTodoID, err.Error
+}
+
+//GetUserTodo  获得一条todo数据
+func GetUserTodo(db *gorm.DB,
+	userID,
+	userTodoID string,
+) (string, error) {
+
+	var resulttodo todo.UserTodo
+	err := db.Where("user_id = ?", userID).First(&resulttodo)
+
+	return resulttodo.UserTodoID, err.Error
+}
+
+//GetUserAllTodos 获取所有todo数据
+func GetUserAllTodos(db *gorm.DB,
+	page,
+	pageSize int,
+) ([]*todo.ResultUserTodo, error) {
+	var resulttodos []*todo.ResultUserTodo
+	//var resulttodo	todo.ResultUserTodo
+	var usertodo []todo.UserTodo
+	if page == 0 {
+		page = 1
+	}
+	switch {
+	case pageSize > 100:
+		pageSize = 100
+	case pageSize <= 0:
+		pageSize = 10
+	}
+	offset := (page - 1) * pageSize
+	err := db.Offset(offset).Limit(pageSize).Find(&usertodo)
+	for _, item := range usertodo {
+		resulttodos = append(resulttodos, &todo.ResultUserTodo{UserTodoID: item.UserTodoID, UserTodoTitle: item.UserTodoTitle,
+			UserTodoDescription: item.UserTodoDescription,
+		})
+	}
+
+	return resulttodos, err.Error
+}
+
+//UpdateUserTodo 更新某一条todo数据
+func UpdateUserTodo(db *gorm.DB,
+	userID,
+	userTodoTitle,
+	userTodoDescription,
+	userTodoDueTime,
+	userTodoRemindTime string,
+	status int,
+) (string, error) {
+	userTodoID := uuid.MustString()
+	convertedTodoTime, _ := time.ParseInLocation(TimeTemplate, userTodoDueTime, time.Local)
+	convertedRemindTime, _ := time.ParseInLocation(TimeTemplate, userTodoRemindTime, time.Local)
+	var _status bool
+	if status == 1 {
+		_status = true
+	} else {
+		_status = false
+	}
+	var userTodo todo.UserTodo
+
+	err := db.Model(&userTodo).Where("user_id = ?", userID).Updates(map[string]interface{}{"UserTodoID": userTodoID, "UserTodoTitle": userTodoTitle,
+		"UserTodoDescription": userTodoDescription, "UserTodoDueTime": convertedTodoTime, "UserTodoRemindTime": convertedRemindTime,
+		"Status": _status})
 	return userTodoID, err.Error
 }
