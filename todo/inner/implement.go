@@ -33,7 +33,7 @@ func (dts *DefaultTodoService) AddUserTodo(userID, userTodoTitle, userTodoDescri
 func (dts *DefaultTodoService) GetUserTodo(userID, userTodoID string ) (string, error) {
 	return GetUserTodo(dts.db, userID, userTodoID)
 }
-// GetUserAllTodos xxx
+// GetUserAllTodos 获取用户全部todo
 func (dts *DefaultTodoService) GetUserAllTodos(page, pageSize int) ([]*todo.ResultUserTodo, error) {
 	return GetUserAllTodos(dts.db,page, pageSize)
 }
