@@ -29,3 +29,15 @@ func NewTodoService(db *gorm.DB) (service todo.TodoService, err error) {
 func (dts *DefaultTodoService) AddUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime string, status int) (string, error) {
 	return AddUserTodo(dts.db, userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime, status)
 }
+// GetUserTodo xxx
+func (dts *DefaultTodoService) GetUserTodo(userID, userTodoID string ) (string, error) {
+	return GetUserTodo(dts.db, userID, userTodoID)
+}
+// GetUserAllTodos xxx
+func (dts *DefaultTodoService) GetUserAllTodos(page, pageSize int) ([]*todo.ResultUserTodo, error) {
+	return GetUserAllTodos(dts.db,page, pageSize)
+}
+// UpdateUserTodo xxx
+func (dts *DefaultTodoService) UpdateUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime string, status int) (string, error) {
+	return UpdateUserTodo(dts.db,userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime, status)
+}

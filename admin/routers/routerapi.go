@@ -11,6 +11,11 @@ func (r *Router) RegisterAPI(app *gin.Engine) {
 		gTodo := v1.Group("/todo")
 		{
 			gTodo.POST("", r.TodoAPI.AddUserTodo)
+			gTodo.GET("/user_id", r.TodoAPI.GetUserTodo)
+			gTodo.GET("", r.TodoAPI.GetUserAllTodos)
+			gTodo.PUT("", r.TodoAPI.UpdateUserTodo)
+			
+
 		}
 	}
 }

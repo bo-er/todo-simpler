@@ -4,11 +4,11 @@ package todo
 type TodoService interface {
 	AddUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime string, status int) (string, error)
 
-	// GetUserTodo(userID, userTodoID string)
+	GetUserTodo(userID, userTodoID string) (string, error)
 
-	// GetUserAllTodos(page, pageSize int, userID string) ([]*ResultUserTodo, error)
+	GetUserAllTodos(page, pageSize int) ([]*ResultUserTodo, error)
 
-	// UpdateUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime, string, status int) (string, error)
+	UpdateUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime string, status int) (string, error)
 
 	// DeleteUserTodo(userID, userTodoID string)
 }

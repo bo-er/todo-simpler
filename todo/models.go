@@ -20,6 +20,7 @@ type UserTodo struct {
 
 // ResultUserTodo 是UserTodo的数据库查询结构体
 type ResultUserTodo struct {
+	models.Base
 	UserTodoID          string `json:"user_todo_id"`          //用户todo ID
 	UserTodoTitle       string `json:"user_todo_title"`       //用户todo 标题
 	UserTodoDescription string `json:"user_todo_description"` //用户todo 描述
