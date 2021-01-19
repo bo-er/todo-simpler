@@ -70,7 +70,7 @@ func GetUserTodo(db *gorm.DB,
 
 	var resulttodo todo.UserTodo
 	err := db.Where("user_id = ?", userID).First(&resulttodo)
-
+	//return "resulttodo.UserTodoID", err.Error
 	return resulttodo.UserTodoID, err.Error
 }
 
@@ -126,4 +126,11 @@ func UpdateUserTodo(db *gorm.DB,
 		"UserTodoDescription": userTodoDescription, "UserTodoDueTime": convertedTodoTime, "UserTodoRemindTime": convertedRemindTime,
 		"Status": _status})
 	return userTodoID, err.Error
+}
+
+//DeleteUserTodo 删除某一条UserTodo数据
+func DeleteUserTodo(db *gorm.DB, userID, userTodoID string) {
+	var resulttodo todo.UserTodo
+	err := db.Where("user_id = ?", userID).Delete(&resulttodo)
+	return resulttodo.UserTodoID, err.Error
 }
