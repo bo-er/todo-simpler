@@ -1,6 +1,8 @@
 package api
 
 import (
+	//"fmt"
+	"fmt"
 	"strconv"
 
 	"github.com/bo-er/todo-simpler/admin/response"
@@ -14,8 +16,8 @@ type Todo struct {
 }
 
 type paginationInput struct {
-	Page     int `form:"page"`      //当前页
-	PageSize int `form:"page_size"` // 每页大小
+	Page     int `form:"page" json:"page"`           //当前页
+	PageSize int `form:"page_size" json:"page_size"` // 每页大小
 }
 
 type addUserTodoInput struct {
@@ -28,8 +30,8 @@ type addUserTodoInput struct {
 }
 
 type findUserTodo struct {
-	UserID     string `json:"user_id"`      //用户id
-	UserTodoID string `json:"user_todo_id"` //用户Todo id
+	UserID     string `form:"user_id" json:"user_id" binding:"required"`           //用户id
+	UserTodoID string `form:"user_todo_id" json:"user_todo_id" binding:"required"` //用户Todo id
 }
 
 // AddUserTodo 是添加新的UserTodo的路由处理函数
@@ -60,38 +62,60 @@ func (t *Todo) AddUserTodo(c *gin.Context) {
 	response.ResSuccess(c, userTodoID)
 }
 
-// GetUserTodo 获得一条todo的路由处理函数
+// GetUserTodo 根据UserID获得一条todo的路由处理函数
+// @Tags UserTodo
+// @Summary 查询一条数据
+// @Param   user_id     query    string     true        "用户ID"
+// @Param   user_todo_id     query    string     true        "用户Todo ID"
+// @Success 200 {object} response.Result "{Code: 200, Msg: "请求成功", Data: "0"}"
+// @Failure 500 {object} response.Result "{Code: 500, Msg: "服务器内部错误", Data: "服务器内部错误"}"
+// @Router /api/v1/todo/user_id [get]
 func (t *Todo) GetUserTodo(c *gin.Context) {
-	var json findUserTodo
-	if err := c.ShouldBindJSON(&json); err != nil {
+	var j findUserTodo
+	if err := c.ShouldBind(&j); err != nil {
+
 		response.ResError(c, err)
 		return
 	} //这里的if函数的目的是判断json里面是否有值？
 	//userid,err:=strconv.Atoi(json.UserID)
-	userTodoID, err := t.TodoService.GetUserTodo(json.UserID, json.UserTodoID)
+	fmt.Print(j)
+	userTodoID, err := t.TodoService.GetUserTodo(j.UserID, j.UserTodoID)
 	if err != nil {
 		response.ResError(c, err)
 	}
 	response.ResSuccess(c, userTodoID)
 }
 
-// GetUserAllTodos 获得所有todo的路由处理函数
+// GetUserAllTodos 分页获取所有数据的路由处理函数
+// @Tags UserTodo
+// @Summary 查询所有数据
+// @Param   page     query    int     true        "当前页码"
+// @Param   page_size     query    int     true        "每一页的显示数量"
+// @Success 200 {object} response.Result "{Code: 200, Msg: "请求成功", Data: "0"}"
+// @Failure 500 {object} response.Result "{Code: 500, Msg: "服务器内部错误", Data: "服务器内部错误"}"
+// @Router /api/v1/todo [get]
 func (t *Todo) GetUserAllTodos(c *gin.Context) {
-	// var page paginationInput
-	// if err := c.ShouldBind(&page); err != nil {
-	// 	response.ResError(c, err)
-	// 	return
-	// }
-	page, _ := strconv.Atoi(c.PostForm("page"))
-	pagesize, _ := strconv.Atoi(c.PostForm("page_size"))
-	resultTodo, err := t.TodoService.GetUserAllTodos(page, pagesize)
+	var formdata paginationInput
+	// page, _ := strconv.Atoi(c.PostForm("page"))
+	// pagesize, _ := strconv.Atoi(c.PostForm("page_size"))
+	if err := c.ShouldBind(&formdata); err != nil {
+		response.ResError(c, err)
+		return
+	}
+	resultTodo, err := t.TodoService.GetUserAllTodos(formdata.Page, formdata.PageSize)
 	if err != nil {
 		response.ResError(c, err)
 	}
 	response.ResSuccess(c, resultTodo)
 }
 
-//UpdateUserTodo 更新单个todo的路由处理函数
+// UpdateUserTodo 是更新单条数据的路由处理函数
+// @Tags UserTodo
+// @Summary 更新一条UserTodo
+// @Param addUserTodoInput body addUserTodoInput true "更新todo"
+// @Success 200 {object} response.Result "{Code: 200, Msg: "请求成功", Data: "0"}"
+// @Failure 500 {object} response.Result "{Code: 500, Msg: "服务器内部错误", Data: "服务器内部错误"}"
+// @Router /api/v1/todo [put]
 func (t *Todo) UpdateUserTodo(c *gin.Context) {
 	var json addUserTodoInput
 	if err := c.ShouldBindJSON(&json); err != nil {
@@ -106,7 +130,7 @@ func (t *Todo) UpdateUserTodo(c *gin.Context) {
 	}
 	userID := strconv.Itoa(json.UserID)
 	userTodoID, err := t.TodoService.UpdateUserTodo(userID, json.UserTodoTitle, json.UserTodoDescription,
-		json.UserTodoDueTime, json.UserTodoRemindTime, status) //这里的t相当于参数，直接可以运用？
+		json.UserTodoDueTime, json.UserTodoRemindTime, status)
 	if err != nil {
 		response.ResError(c, err)
 	}
