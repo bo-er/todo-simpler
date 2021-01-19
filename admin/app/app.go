@@ -12,6 +12,7 @@ import (
 	"github.com/bo-er/todo-simpler/admin/api"
 	"github.com/bo-er/todo-simpler/admin/config"
 	"github.com/bo-er/todo-simpler/admin/routers"
+	_ "github.com/bo-er/todo-simpler/admin/swagger" //初始化Swagger
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

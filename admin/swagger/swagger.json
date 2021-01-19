@@ -1,0 +1,94 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/todo": {
+            "post": {
+                "tags": [
+                    "UserTodo"
+                ],
+                "summary": "添加新的UserTodo",
+                "parameters": [
+                    {
+                        "description": "创建新的todo",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.addUserTodoInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code: 200, Msg: \"请求成功\", Data: \"0\"}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    },
+                    "500": {
+                        "description": "{Code: 500, Msg: \"服务器内部错误\", Data: \"服务器内部错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.addUserTodoInput": {
+            "type": "object",
+            "required": [
+                "user_todo_title"
+            ],
+            "properties": {
+                "status": {
+                    "description": "用户Todo状态",
+                    "type": "boolean"
+                },
+                "user_id": {
+                    "description": "用户id(新增)",
+                    "type": "integer"
+                },
+                "user_todo_description": {
+                    "description": "用户Todo的描述",
+                    "type": "string"
+                },
+                "user_todo_due_time": {
+                    "description": "用户Todo截止时间",
+                    "type": "string",
+                    "example": "2021-01-22 16:09:00"
+                },
+                "user_todo_remind_time": {
+                    "description": "用户Todo提前多久通知",
+                    "type": "string",
+                    "example": "2021-01-21 16:09:00"
+                },
+                "user_todo_title": {
+                    "description": "用户Todo的标题",
+                    "type": "string"
+                }
+            }
+        },
+        "response.Result": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "消息代码",
+                    "type": "integer"
+                },
+                "data": {
+                    "description": "消息体",
+                    "type": "object"
+                },
+                "msg": {
+                    "description": "消息信息",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

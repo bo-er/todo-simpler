@@ -33,6 +33,12 @@ type findUserTodo struct {
 }
 
 // AddUserTodo 是添加新的UserTodo的路由处理函数
+// @Tags UserTodo
+// @Summary 添加新的UserTodo
+// @Param body body addUserTodoInput true "创建新的todo"
+// @Success 200 {object} response.Result "{Code: 200, Msg: "请求成功", Data: "0"}"
+// @Failure 500 {object} response.Result "{Code: 500, Msg: "服务器内部错误", Data: "服务器内部错误"}"
+// @Router /api/v1/todo [post]
 func (t *Todo) AddUserTodo(c *gin.Context) {
 	var json addUserTodoInput
 	if err := c.ShouldBindJSON(&json); err != nil {

@@ -8,5 +8,8 @@ GIT_COUNT 		= $(shell git rev-list --all --count)
 GIT_HASH        = $(shell git rev-parse --short HEAD)
 RELEASE_TAG     = $(RELEASE_VERSION).$(GIT_COUNT).$(GIT_HASH)
 
+swagger:
+	@swag init --generalInfo ./cmd/admin/main.go --output ./admin/swagger
+
 start:
 	@go run -ldflags "-X main.VERSION=$(RELEASE_TAG)" ./cmd/${APP}/main.go todosimpler -c ./configs/config.toml
