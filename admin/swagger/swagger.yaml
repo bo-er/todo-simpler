@@ -49,6 +49,30 @@ info:
   contact: {}
 paths:
   /api/v1/todo:
+    get:
+      parameters:
+      - description: 当前页码
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每一页的显示数量
+        in: query
+        name: page_size
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: '{Code: 200, Msg: "请求成功", Data: "0"}'
+          schema:
+            $ref: '#/definitions/response.Result'
+        "500":
+          description: '{Code: 500, Msg: "服务器内部错误", Data: "服务器内部错误"}'
+          schema:
+            $ref: '#/definitions/response.Result'
+      summary: 查询所有数据
+      tags:
+      - UserTodo
     post:
       parameters:
       - description: 创建新的todo
@@ -69,15 +93,16 @@ paths:
       summary: 添加新的UserTodo
       tags:
       - UserTodo
-  /api/v1/todo/user_todo_id:
-    delete:
+
+    put:
       parameters:
-      - description: 删除一个todo
+      - description: 更新todo
         in: body
-        name: body
+        name: addUserTodoInput
         required: true
         schema:
-          $ref: '#/definitions/api.findUserTodo'
+          $ref: '#/definitions/api.addUserTodoInput'
+
       responses:
         "200":
           description: '{Code: 200, Msg: "请求成功", Data: "0"}'
@@ -87,7 +112,34 @@ paths:
           description: '{Code: 500, Msg: "服务器内部错误", Data: "服务器内部错误"}'
           schema:
             $ref: '#/definitions/response.Result'
-      summary: 删除一个UserTodo数据
+
+      summary: 更新一条UserTodo
+      tags:
+      - UserTodo
+  /api/v1/todo/user_id:
+    get:
+      parameters:
+      - description: 用户ID
+        in: query
+        name: user_id
+        required: true
+        type: string
+      - description: 用户Todo ID
+        in: query
+        name: user_todo_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{Code: 200, Msg: "请求成功", Data: "0"}'
+          schema:
+            $ref: '#/definitions/response.Result'
+        "500":
+          description: '{Code: 500, Msg: "服务器内部错误", Data: "服务器内部错误"}'
+          schema:
+            $ref: '#/definitions/response.Result'
+      summary: 查询一条数据
+
       tags:
       - UserTodo
 swagger: "2.0"

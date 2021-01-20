@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/LyricTian/gzip"
 	"github.com/bo-er/todo-simpler/admin/config"
+	"github.com/bo-er/todo-simpler/admin/middlewares"
 	"github.com/bo-er/todo-simpler/admin/routers"
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -14,6 +15,10 @@ func InitGinEngine(r routers.MyRouter) *gin.Engine {
 
 	app := gin.New()
 	// GZIP
+	if config.C.CORS.Enable {
+		app.Use(middlewares.CORSMiddleware())
+	}
+
 	if config.C.GZIP.Enable {
 		app.Use(gzip.Gzip(gzip.BestCompression,
 			gzip.WithExcludedExtensions(config.C.GZIP.ExcludedExtentions),

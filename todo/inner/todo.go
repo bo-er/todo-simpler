@@ -69,7 +69,8 @@ func GetUserTodo(db *gorm.DB,
 ) (string, error) {
 
 	var resulttodo todo.UserTodo
-	err := db.Where("user_id = ?", userID).First(&resulttodo)
+	//fmt.Print(userID, userTodoID)
+	err := db.Where("user_id = ? and user_todo_id=?", userID, userTodoID).First(&resulttodo)
 	//return "resulttodo.UserTodoID", err.Error
 	return resulttodo.UserTodoID, err.Error
 }

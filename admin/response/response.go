@@ -68,6 +68,7 @@ func ResError(c *gin.Context, err error, status ...int) {
 		responseErr = UnWrapErrorToResponsError(err)
 
 	} else {
+		fmt.Println(err)
 		responseErr = UnWrapErrorToResponsError(NewResponse(500, 500, "服务器内部错误"))
 	}
 

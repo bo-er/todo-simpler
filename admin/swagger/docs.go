@@ -25,6 +25,73 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/api/v1/todo": {
+            "get": {
+                "tags": [
+                    "UserTodo"
+                ],
+                "summary": "查询所有数据",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "当前页码",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每一页的显示数量",
+                        "name": "page_size",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code: 200, Msg: \"请求成功\", Data: \"0\"}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    },
+                    "500": {
+                        "description": "{Code: 500, Msg: \"服务器内部错误\", Data: \"服务器内部错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "UserTodo"
+                ],
+                "summary": "更新一条UserTodo",
+                "parameters": [
+                    {
+                        "description": "更新todo",
+                        "name": "addUserTodoInput",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.addUserTodoInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code: 200, Msg: \"请求成功\", Data: \"0\"}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    },
+                    "500": {
+                        "description": "{Code: 500, Msg: \"服务器内部错误\", Data: \"服务器内部错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "UserTodo"
@@ -57,21 +124,28 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/todo/user_todo_id": {
-            "delete": {
+
+        "/api/v1/todo/user_id": {
+            "get": {
                 "tags": [
                     "UserTodo"
                 ],
-                "summary": "删除一个UserTodo数据",
+                "summary": "查询一条数据",
                 "parameters": [
                     {
-                        "description": "删除一个todo",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/api.findUserTodo"
-                        }
+                        "type": "string",
+                        "description": "用户ID",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "用户Todo ID",
+                        "name": "user_todo_id",
+                        "in": "query",
+                        "required": true
+
                     }
                 ],
                 "responses": {
