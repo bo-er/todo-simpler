@@ -8,6 +8,9 @@ GIT_COUNT 		= $(shell git rev-list --all --count)
 GIT_HASH        = $(shell git rev-parse --short HEAD)
 RELEASE_TAG     = $(RELEASE_VERSION).$(GIT_COUNT).$(GIT_HASH)
 
+buildmod:  ## Build the binary file
+	@go build -i -o ./cmd/admin/todo-simpler ./cmd/admin
+
 swagger:
 	@swag init --generalInfo ./cmd/admin/main.go --output ./admin/swagger
 
