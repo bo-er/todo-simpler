@@ -137,7 +137,13 @@ func (t *Todo) UpdateUserTodo(c *gin.Context) {
 	response.ResSuccess(c, userTodoID)
 }
 
-//DeleteUserTodo 是删除单个UserTodo的路由处理函数
+// DeleteUserTodo 是删除单个UserTodo数据的路由处理函数
+// @Tags UserTodo
+// @Summary 删除一个UserTodo数据
+// @Param body  body  findUserTodo true "删除一个todo"
+// @Success 200 {object} response.Result "{Code: 200, Msg: "请求成功", Data: "0"}"
+// @Failure 500 {object} response.Result "{Code: 500, Msg: "服务器内部错误", Data: "服务器内部错误"}"
+// @Router /api/v1/todo/user_todo_id  [delete]
 func (t *Todo) DeleteUserTodo(c *gin.Context) {
 	var json findUserTodo
 	if err := c.ShouldBindJSON(&json); err != nil {

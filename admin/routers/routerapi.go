@@ -14,7 +14,7 @@ func (r *Router) RegisterAPI(app *gin.Engine) {
 			gTodo.GET("/user_id", r.TodoAPI.GetUserTodo)
 			gTodo.GET("", r.TodoAPI.GetUserAllTodos)
 			gTodo.PUT("", r.TodoAPI.UpdateUserTodo)
-			gTodo.DELETE("/user_id", r.TodoAPI.DeleteUserTodo)
+			gTodo.DELETE("/user_todo_id", r.TodoAPI.DeleteUserTodo)
 
 		}
 	}

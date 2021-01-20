@@ -124,6 +124,7 @@ var doc = `{
                 }
             }
         },
+
         "/api/v1/todo/user_id": {
             "get": {
                 "tags": [
@@ -144,6 +145,7 @@ var doc = `{
                         "name": "user_todo_id",
                         "in": "query",
                         "required": true
+
                     }
                 ],
                 "responses": {
@@ -194,6 +196,19 @@ var doc = `{
                 },
                 "user_todo_title": {
                     "description": "用户Todo的标题",
+                    "type": "string"
+                }
+            }
+        },
+        "api.findUserTodo": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                },
+                "user_todo_id": {
+                    "description": "用户Todo id",
                     "type": "string"
                 }
             }

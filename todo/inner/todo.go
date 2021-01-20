@@ -132,6 +132,6 @@ func UpdateUserTodo(db *gorm.DB,
 //DeleteUserTodo 删除某一条UserTodo数据
 func DeleteUserTodo(db *gorm.DB, userID, userTodoID string) (string, error) {
 	var resulttodo todo.UserTodo
-	err := db.Where("user_id = ?", userID).Delete(&resulttodo)
+	err := db.Where("user_todo_id = ?", userTodoID).Delete(&resulttodo)
 	return resulttodo.UserTodoID, err.Error
 }

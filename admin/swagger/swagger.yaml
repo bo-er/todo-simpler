@@ -24,6 +24,15 @@ definitions:
     required:
     - user_todo_title
     type: object
+  api.findUserTodo:
+    properties:
+      user_id:
+        description: 用户id
+        type: string
+      user_todo_id:
+        description: 用户Todo id
+        type: string
+    type: object
   response.Result:
     properties:
       code:
@@ -84,6 +93,7 @@ paths:
       summary: 添加新的UserTodo
       tags:
       - UserTodo
+
     put:
       parameters:
       - description: 更新todo
@@ -92,6 +102,7 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/api.addUserTodoInput'
+
       responses:
         "200":
           description: '{Code: 200, Msg: "请求成功", Data: "0"}'
@@ -101,6 +112,7 @@ paths:
           description: '{Code: 500, Msg: "服务器内部错误", Data: "服务器内部错误"}'
           schema:
             $ref: '#/definitions/response.Result'
+
       summary: 更新一条UserTodo
       tags:
       - UserTodo
@@ -127,6 +139,7 @@ paths:
           schema:
             $ref: '#/definitions/response.Result'
       summary: 查询一条数据
+
       tags:
       - UserTodo
 swagger: "2.0"

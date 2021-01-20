@@ -38,6 +38,10 @@ type TodoService interface {
 	// @param   status             			string  "用户Todo状态"
 	// @error	ErrSystem
 	UpdateUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime string, status int) (string, error)
-
+	// @title   DeleteDeviceIDRawValue
+	// @description   删除用户Todo
+	// @param   userID                       string "用户ID"
+	// @return  userTodoID                   string "用户TodoID"
+	// error    ErrSystem
 	DeleteUserTodo(userID, userTodoID string) (string, error)
 }
