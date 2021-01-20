@@ -66,9 +66,9 @@ Port= 5432
 # 用户名
 User = "postgres"
 # 密码
-Password = "sds123"
+Password = "postgreSQL103"
 # 数据库
-DBName = "todo"
+DBName = "dt"
 # SSL模式
 SSLMode = "disable"
 
