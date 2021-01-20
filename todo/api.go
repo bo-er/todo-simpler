@@ -19,6 +19,10 @@ type TodoService interface {
 	GetUserAllTodos(page, pageSize int) ([]*ResultUserTodo, error)
 
 	UpdateUserTodo(userID, userTodoTitle, userTodoDescription, userTodoDueTime, userTodoRemindTime string, status int) (string, error)
-
+	// @title   DeleteDeviceIDRawValue
+	// @description   删除用户Todo
+	// @param   userID                       string "用户ID"
+	// @return  userTodoID                   string "用户TodoID"
+	// error    ErrSystem
 	DeleteUserTodo(userID, userTodoID string) (string, error)
 }

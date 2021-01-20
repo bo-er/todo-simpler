@@ -36,6 +36,39 @@
                     }
                 }
             }
+        },
+        "/api/v1/todo/user_todo_id": {
+            "delete": {
+                "tags": [
+                    "UserTodo"
+                ],
+                "summary": "删除一个UserTodo数据",
+                "parameters": [
+                    {
+                        "description": "删除一个todo",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/api.findUserTodo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{Code: 200, Msg: \"请求成功\", Data: \"0\"}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    },
+                    "500": {
+                        "description": "{Code: 500, Msg: \"服务器内部错误\", Data: \"服务器内部错误\"}",
+                        "schema": {
+                            "$ref": "#/definitions/response.Result"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -69,6 +102,19 @@
                 },
                 "user_todo_title": {
                     "description": "用户Todo的标题",
+                    "type": "string"
+                }
+            }
+        },
+        "api.findUserTodo": {
+            "type": "object",
+            "properties": {
+                "user_id": {
+                    "description": "用户id",
+                    "type": "string"
+                },
+                "user_todo_id": {
+                    "description": "用户Todo id",
                     "type": "string"
                 }
             }
